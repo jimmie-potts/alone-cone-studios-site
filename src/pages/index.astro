@@ -3,7 +3,7 @@ import MuralGallery from '../components/MuralGallery.astro';
 import { muralProjects } from '../data/murals';
 import '../styles/global.css';
 
-const formAction = 'https://formspree.io/f/REPLACE_WITH_FORM_ID';
+const formAction = 'https://formspree.io/p/3040768964113203164/f/mural-inquiry';
 const heroProject = muralProjects[0];
 const featuredImage = heroProject.gallery[0] ?? heroProject.backgroundImage;
 const thankYouImage = muralProjects[1]?.gallery[0] ?? featuredImage;
@@ -147,7 +147,7 @@ const reviewPlaceholders = [
             <p class="section-label">Inquiry form</p>
             <h2 id="contact-heading">Tell Minnie about the wall.</h2>
             <p>
-              This form is ready for Formspree. Replace the placeholder endpoint before launch.
+              Share a few details and Minnie will follow up by email.
             </p>
             <div id="thanks" class="thanks-card" hidden>
               <img
@@ -161,9 +161,8 @@ const reviewPlaceholders = [
             </div>
           </div>
 
-          <form class="intake-form" action={formAction} method="POST">
+          <form class="intake-form" action={formAction} method="POST" data-intake-form>
             <input type="hidden" name="_subject" value="New Minnie mural inquiry" />
-            <input type="hidden" name="_next" value="/?thanks=true#thanks" />
 
             <label>
               Name
@@ -218,7 +217,11 @@ const reviewPlaceholders = [
               Add me to the 2026 winter holiday window painting waitlist.
             </label>
 
-            <button class="submit-button full-span" type="submit">Submit inquiry</button>
+            <p class="form-error full-span" data-form-error hidden role="alert">
+              Something went sideways. Please try again or email Minnie directly.
+            </p>
+
+            <button class="submit-button full-span" type="submit" data-submit-button>Submit inquiry</button>
           </form>
         </div>
       </section>
@@ -231,6 +234,52 @@ const reviewPlaceholders = [
       const thanks = document.querySelector('#thanks');
       if (params.get('thanks') === 'true' && thanks instanceof HTMLElement) {
         thanks.hidden = false;
+      }
+
+      const intakeForm = document.querySelector('[data-intake-form]');
+      if (intakeForm instanceof HTMLFormElement && thanks instanceof HTMLElement) {
+        const errorMessage = intakeForm.querySelector('[data-form-error]');
+        const submitButton = intakeForm.querySelector('[data-submit-button]');
+
+        intakeForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          if (errorMessage instanceof HTMLElement) {
+            errorMessage.hidden = true;
+          }
+
+          if (submitButton instanceof HTMLButtonElement) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+          }
+
+          try {
+            const response = await fetch(intakeForm.action, {
+              method: 'POST',
+              body: new FormData(intakeForm),
+              headers: {
+                Accept: 'application/json',
+              },
+            });
+
+            if (!response.ok) {
+              throw new Error('Form submission failed');
+            }
+
+            intakeForm.reset();
+            thanks.hidden = false;
+            thanks.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } catch {
+            if (errorMessage instanceof HTMLElement) {
+              errorMessage.hidden = false;
+            }
+          } finally {
+            if (submitButton instanceof HTMLButtonElement) {
+              submitButton.disabled = false;
+              submitButton.textContent = 'Submit inquiry';
+            }
+          }
+        });
       }
 
       const gallery = document.querySelector('[data-lock-gallery]');
