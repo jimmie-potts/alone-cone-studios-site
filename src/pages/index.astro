@@ -1,9 +1,12 @@
 ---
-import { murals } from '../content/murals';
+import MuralGallery from '../components/MuralGallery.astro';
+import { muralProjects } from '../data/murals';
 import '../styles/global.css';
 
 const formAction = 'https://formspree.io/f/REPLACE_WITH_FORM_ID';
-const repeatedMurals = [...murals, ...murals];
+const heroProject = muralProjects[0];
+const featuredImage = heroProject.gallery[0] ?? heroProject.backgroundImage;
+const thankYouImage = muralProjects[1]?.gallery[0] ?? featuredImage;
 
 const trustedByPlaceholders = ['Local Shop', 'Community Space', 'Creative Studio', 'Small Business'];
 
@@ -57,8 +60,8 @@ const reviewPlaceholders = [
     <main id="main">
       <section id="top" class="hero-section" aria-labelledby="hero-heading">
         <img
-          src={murals[0].image}
-          alt={murals[0].alt}
+          src={heroProject.backgroundImage.src}
+          alt={heroProject.backgroundImage.alt}
           width="1200"
           height="900"
           class="hero-image"
@@ -84,8 +87,8 @@ const reviewPlaceholders = [
           </div>
           <figure class="feature-photo">
             <img
-              src={murals[1]?.image ?? murals[0].image}
-              alt={murals[1]?.alt ?? murals[0].alt}
+              src={featuredImage.src}
+              alt={featuredImage.alt}
               width="1200"
               height="900"
               loading="lazy"
@@ -148,7 +151,7 @@ const reviewPlaceholders = [
             </p>
             <div id="thanks" class="thanks-card" hidden>
               <img
-                src={murals[2]?.image ?? murals[0].image}
+                src={thankYouImage.src}
                 alt="Fun placeholder thank-you image for Minnie's inquiry form."
                 width="1200"
                 height="900"
@@ -220,13 +223,7 @@ const reviewPlaceholders = [
         </div>
       </section>
 
-      <section class="marquee-section" aria-label="Continuously scrolling mural photos">
-        <div class="marquee-track">
-          {repeatedMurals.map((mural) => (
-            <img src={mural.image} alt="" width="1200" height="900" loading="lazy" />
-          ))}
-        </div>
-      </section>
+      <MuralGallery projects={muralProjects} />
     </main>
 
     <script>

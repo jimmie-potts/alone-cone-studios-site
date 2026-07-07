@@ -1,0 +1,20 @@
+---
+import MuralProject from './MuralProject.astro';
+import type { MuralProject as MuralProjectData } from '../data/murals';
+
+type Props = {
+  projects: MuralProjectData[];
+};
+
+const { projects } = Astro.props;
+---
+
+<section class="mural-gallery" aria-labelledby="mural-gallery-heading">
+  <h2 id="mural-gallery-heading" class="visually-hidden">Mural portfolio projects</h2>
+
+  <div>
+    {projects.map((project, index) => (
+      <MuralProject project={project} index={index} />
+    ))}
+  </div>
+</section>
