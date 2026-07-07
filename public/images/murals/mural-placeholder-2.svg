@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Mural photo placeholder 2</title>
+  <desc id="desc">A clearly labeled placeholder for a future Minnie mural photo.</desc>
+  <rect width="1200" height="900" fill="#f8e27c"/>
+  <path d="M87 572C184 419 325 388 446 495C568 604 680 611 807 466C914 344 1053 356 1142 507" fill="none" stroke="#191919" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="314" cy="265" r="94" fill="#fffaf0" stroke="#191919" stroke-width="12"/>
+  <circle cx="604" cy="306" r="118" fill="#8f95ff" stroke="#191919" stroke-width="12"/>
+  <circle cx="908" cy="255" r="86" fill="#fff" stroke="#191919" stroke-width="12"/>
+  <path d="M0 760L1200 628V900H0Z" fill="#fffaf0"/>
+  <text x="600" y="802" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#191919">MURAL PHOTO PLACEHOLDER</text>
+</svg>

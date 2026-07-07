@@ -1,12 +1,25 @@
 ---
+import { murals } from '../content/murals';
 import '../styles/global.css';
 
-const emailAddress = 'hello@example.com';
+const formAction = 'https://formspree.io/f/REPLACE_WITH_FORM_ID';
+const repeatedMurals = [...murals, ...murals];
 
-const muralHighlights = [
-  'Big bright murals for playful spaces.',
-  'Custom walls for shops, homes, events, and community spots.',
-  'Flora, fauna, odd little friends, and colorful worlds.',
+const trustedByPlaceholders = ['Local Shop', 'Community Space', 'Creative Studio', 'Small Business'];
+
+const reviewPlaceholders = [
+  {
+    quote: 'Placeholder review: add a real client quote here before publishing.',
+    name: 'Client Name',
+  },
+  {
+    quote: "Placeholder review: use Minnie's real mural feedback when available.",
+    name: 'Client Name',
+  },
+  {
+    quote: 'Placeholder review: keep this section accurate and client-approved.',
+    name: 'Client Name',
+  },
 ];
 ---
 
@@ -18,108 +31,210 @@ const muralHighlights = [
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="Minnie's playful artist portfolio for murals and upcoming holiday window painting services."
+      content="Minnie's mural portfolio, custom mural inquiries, and 2026 winter holiday window painting waitlist."
     />
-    <title>Minnie Art</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+    <title>Minnie Art | Custom Murals</title>
   </head>
   <body>
-    <main>
-      <section class="bg-butter px-5 py-16 sm:px-8 lg:px-12">
-        <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <p class="mb-5 inline-block rounded-full border-2 border-ink bg-white px-4 py-2 text-sm font-bold uppercase tracking-wide">
-              Murals now · Holiday windows soon
-            </p>
-            <h1 class="font-display text-5xl leading-tight sm:text-6xl lg:text-7xl">
-              Minnie paints colorful little worlds.
-            </h1>
-            <p class="mt-6 max-w-2xl text-lg leading-8 sm:text-xl">
-              Playful murals, cheerful storefront ideas, and art that makes a wall feel like an adventure.
-            </p>
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="#contact"
-                class="rounded-full border-2 border-ink bg-ink px-6 py-3 text-center font-bold text-white shadow-[4px_4px_0_#8f95ff] transition hover:-translate-y-0.5 focus:outline focus:outline-4 focus:outline-offset-4 focus:outline-periwinkle"
-              >
-                Email Minnie
-              </a>
-              <a
-                href="#murals"
-                class="rounded-full border-2 border-ink bg-white px-6 py-3 text-center font-bold shadow-[4px_4px_0_#8f95ff] transition hover:-translate-y-0.5 focus:outline focus:outline-4 focus:outline-offset-4 focus:outline-periwinkle"
-              >
-                See mural focus
-              </a>
-            </div>
-          </div>
-          <div class="rounded-[2rem] border-4 border-ink bg-white p-6 shadow-[10px_10px_0_#8f95ff]">
-            <div class="grid aspect-square place-items-center rounded-[1.5rem] border-2 border-dashed border-ink bg-paper p-8 text-center">
-              <div>
-                <p class="font-display text-4xl">Artwork goes here</p>
-                <p class="mt-4 text-sm font-bold uppercase tracking-wide">
-                  Placeholder for Minnie's real mural photography
-                </p>
-              </div>
-            </div>
-          </div>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#top" class="brand-mark">Minnie</a>
+        <div class="nav-actions">
+          <a href="#portfolio">Portfolio</a>
+          <a href="#contact">Inquiry</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section id="top" class="hero-section" aria-labelledby="hero-heading">
+        <img
+          src={murals[0].image}
+          alt={murals[0].alt}
+          width="1200"
+          height="900"
+          class="hero-image"
+          loading="eager"
+        />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Starting at $500.00</p>
+          <h1 id="hero-heading">Murals.</h1>
+          <p class="hero-subtitle">Hand painted. Custom. Murals.</p>
+          <a href="#contact" class="hero-cta">Florida Based. Willing to Travel.</a>
         </div>
       </section>
 
-      <section id="murals" class="px-5 py-16 sm:px-8 lg:px-12">
-        <div class="mx-auto max-w-6xl">
-          <h2 class="font-display text-4xl sm:text-5xl">Featured murals</h2>
-          <div class="mt-8 grid gap-5 md:grid-cols-3">
-            {muralHighlights.map((highlight) => (
-              <article class="rounded-3xl border-2 border-ink bg-white p-6 shadow-[5px_5px_0_#f8e27c]">
-                <p class="text-lg font-bold leading-7">{highlight}</p>
-              </article>
+      <section id="portfolio" class="feature-section" aria-labelledby="feature-heading">
+        <div class="section-shell feature-grid">
+          <div>
+            <p class="section-label">Featured mural</p>
+            <h2 id="feature-heading">One big wall, one colorful world.</h2>
+            <p class="feature-copy">
+              Placeholder description: replace this with a short, accurate note about a real Minnie mural once the final portfolio image is ready.
+            </p>
+          </div>
+          <figure class="feature-photo">
+            <img
+              src={murals[1]?.image ?? murals[0].image}
+              alt={murals[1]?.alt ?? murals[0].alt}
+              width="1200"
+              height="900"
+              loading="lazy"
+            />
+            <figcaption>Placeholder feature photo</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="trusted-section" aria-labelledby="trusted-heading">
+        <div class="section-shell">
+          <p class="section-label">Trusted by</p>
+          <h2 id="trusted-heading">Client logos coming soon.</h2>
+          <div class="logo-row" aria-label="Placeholder client logos">
+            {trustedByPlaceholders.map((name) => (
+              <div class="logo-pill">
+                <span>{name}</span>
+                <small>Placeholder</small>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section class="bg-periwinkle px-5 py-16 text-ink sm:px-8 lg:px-12">
-        <div class="mx-auto max-w-4xl rounded-[2rem] border-4 border-ink bg-white p-8 shadow-[8px_8px_0_#191919]">
-          <p class="text-sm font-bold uppercase tracking-wide">Coming soon</p>
-          <h2 class="mt-3 font-display text-4xl sm:text-5xl">Holiday window painting</h2>
-          <p class="mt-5 text-lg leading-8">
-            Holiday windows, happy walls, and colorful little worlds are on the way. Reach out if you are curious about a custom seasonal window for a storefront, event, or special space.
-          </p>
+      <section class="reviews-section" aria-labelledby="reviews-heading">
+        <div class="section-shell">
+          <p class="section-label">Reviews</p>
+          <h2 id="reviews-heading">Kind words go here.</h2>
+          <div class="review-grid">
+            {reviewPlaceholders.map((review) => (
+              <figure class="review-card">
+                <blockquote>{review.quote}</blockquote>
+                <figcaption>{review.name} · Placeholder</figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section class="px-5 py-16 sm:px-8 lg:px-12">
-        <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2">
+      <section class="windows-section" aria-labelledby="windows-heading">
+        <div class="section-shell windows-card">
           <div>
-            <h2 class="font-display text-4xl sm:text-5xl">About Minnie</h2>
-            <p class="mt-5 text-lg leading-8">
-              Minnie creates playful artwork for walls, windows, and bright little moments. More personal biography copy can be added when the real content is ready.
+            <p class="section-label">Coming soon</p>
+            <h2 id="windows-heading">2026 winter holiday windows.</h2>
+          </div>
+          <p>
+            Holiday window painting is opening soon. Join the 2026 winter waitlist for storefronts, businesses, homes, and seasonal spaces.
+          </p>
+          <a href="#contact" class="text-link">Join the waitlist</a>
+        </div>
+      </section>
+
+      <section id="contact" class="contact-section" aria-labelledby="contact-heading">
+        <div class="section-shell contact-grid">
+          <div>
+            <p class="section-label">Inquiry form</p>
+            <h2 id="contact-heading">Tell Minnie about the wall.</h2>
+            <p>
+              This form is ready for Formspree. Replace the placeholder endpoint before launch.
             </p>
+            <div id="thanks" class="thanks-card" hidden>
+              <img
+                src={murals[2]?.image ?? murals[0].image}
+                alt="Fun placeholder thank-you image for Minnie's inquiry form."
+                width="1200"
+                height="900"
+                loading="lazy"
+              />
+              <p>Thank you! Minnie will read your note soon.</p>
+            </div>
           </div>
-          <div>
-            <h2 class="font-display text-4xl sm:text-5xl">Services</h2>
-            <ul class="mt-5 space-y-3 text-lg font-bold">
-              <li>Murals</li>
-              <li>Holiday window painting inquiries</li>
-              <li>Future art projects by request</li>
-            </ul>
-          </div>
+
+          <form class="intake-form" action={formAction} method="POST">
+            <input type="hidden" name="_subject" value="New Minnie mural inquiry" />
+            <input type="hidden" name="_next" value="/?thanks=true#thanks" />
+
+            <label>
+              Name
+              <input name="name" type="text" autocomplete="name" required />
+            </label>
+
+            <label>
+              Email
+              <input name="email" type="email" autocomplete="email" required />
+            </label>
+
+            <label class="full-span">
+              Project description / questions
+              <textarea name="project_description" rows="5" required></textarea>
+            </label>
+
+            <label>
+              Square footage estimate
+              <input name="square_footage" type="text" inputmode="decimal" />
+            </label>
+
+            <fieldset>
+              <legend>Project setting</legend>
+              <label><input type="radio" name="setting" value="Indoor" /> Indoor</label>
+              <label><input type="radio" name="setting" value="Outdoor" /> Outdoor</label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Project type</legend>
+              <label><input type="radio" name="project_type" value="Business" /> Business</label>
+              <label><input type="radio" name="project_type" value="Residential" /> Residential</label>
+              <label><input type="radio" name="project_type" value="Other" /> Other</label>
+            </fieldset>
+
+            <label>
+              Budget
+              <select name="budget">
+                <option value="">Select a range</option>
+                <option value="$500-$1,000">$500-$1,000</option>
+                <option value="$1k-$3k">$1k-$3k</option>
+                <option value="$3k-$5k">$3k-$5k</option>
+                <option value="$5k+">$5k+</option>
+              </select>
+            </label>
+
+            <label class="checkbox-row full-span">
+              <input
+                type="checkbox"
+                name="holiday_window_waitlist"
+                value="Yes, add me to the 2026 winter holiday window painting waitlist"
+              />
+              Add me to the 2026 winter holiday window painting waitlist.
+            </label>
+
+            <button class="submit-button full-span" type="submit">Submit inquiry</button>
+          </form>
         </div>
       </section>
 
-      <section id="contact" class="bg-ink px-5 py-16 text-white sm:px-8 lg:px-12">
-        <div class="mx-auto max-w-4xl text-center">
-          <h2 class="font-display text-4xl sm:text-5xl">Want a colorful wall or window?</h2>
-          <p class="mx-auto mt-5 max-w-2xl text-lg leading-8">
-            Email Minnie about murals or upcoming holiday window painting.
-          </p>
-          <a
-            href={`mailto:${emailAddress}?subject=Minnie%20art%20inquiry`}
-            class="mt-8 inline-block rounded-full border-2 border-white bg-butter px-6 py-3 font-bold text-ink shadow-[4px_4px_0_#8f95ff] transition hover:-translate-y-0.5 focus:outline focus:outline-4 focus:outline-offset-4 focus:outline-white"
-          >
-            {emailAddress}
-          </a>
+      <section class="marquee-section" aria-label="Continuously scrolling mural photos">
+        <div class="marquee-track">
+          {repeatedMurals.map((mural) => (
+            <img src={mural.image} alt="" width="1200" height="900" loading="lazy" />
+          ))}
         </div>
       </section>
     </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const thanks = document.querySelector('#thanks');
+      if (params.get('thanks') === 'true' && thanks instanceof HTMLElement) {
+        thanks.hidden = false;
+      }
+    </script>
   </body>
 </html>
