@@ -22,76 +22,60 @@ export type MuralProject = {
 
 export const muralProjects: MuralProject[] = [
   {
-    title: 'Mural Project Placeholder 1',
+    title: 'Derpy Otter With Clam',
     backgroundImage: {
-      src: '/images/murals/mural-placeholder-1.svg',
-      alt: 'Clearly labeled placeholder background image for a future Minnie mural project.',
-      isPlaceholder: true,
+      src: '/images/murals/derpy-otter-with-clam.jpeg',
+      alt: 'Colorful mural of a playful purple otter holding a clam among bright green leaves.',
     },
     description:
-      'Placeholder project description: replace this with the story, location, and details for a real Minnie mural.',
+      'In-progress leaf painting photos leading into the finished playful otter mural.',
     gallery: [
       {
-        src: '/images/murals/mural-placeholder-1.svg',
-        alt: 'Clearly labeled placeholder image for the first future Minnie mural project.',
-        caption: 'Placeholder project photo',
-        isPlaceholder: true,
+        src: '/images/murals/minnie-paint-leaf.PNG',
+        alt: 'Minnie painting green leaf shapes on a white wall with purple mural details nearby.',
+        caption: 'Painting leaf details',
       },
       {
-        src: '/images/murals/mural-placeholder-2.svg',
-        alt: 'Clearly labeled placeholder detail image for the first future Minnie mural project.',
-        caption: 'Placeholder detail photo',
-        isPlaceholder: true,
+        src: '/images/murals/minnie-ponder-leaf.JPEG',
+        alt: 'Minnie standing in front of an in-progress wall mural with green leaves and purple forms.',
+        caption: 'Reviewing the mural in progress',
+      },
+      {
+        src: '/images/murals/derpy-otter-with-clam.jpeg',
+        alt: 'Colorful mural of a playful purple otter holding a clam among bright green leaves.',
+        caption: 'Derpy otter mural',
       },
     ],
     videos: [],
   },
   {
-    title: 'Mural Project Placeholder 2',
+    title: 'Octopus Profile',
     backgroundImage: {
-      src: '/images/murals/mural-placeholder-2.svg',
-      alt: 'Clearly labeled placeholder background image for a second future Minnie mural project.',
-      isPlaceholder: true,
+      src: '/images/murals/octopus-profile.jpeg',
+      alt: 'Bright yellow octopus mural on a blue wall with teal circular details.',
     },
-    description:
-      'Placeholder project description: add accurate notes and real media when this mural project is ready.',
+    description: 'Bright octopus mural with saturated ocean colors and playful circular details.',
     gallery: [
       {
-        src: '/images/murals/mural-placeholder-2.svg',
-        alt: 'Clearly labeled placeholder image for the second future Minnie mural project.',
-        caption: 'Placeholder project photo',
-        isPlaceholder: true,
-      },
-      {
-        src: '/images/murals/mural-placeholder-3.svg',
-        alt: 'Clearly labeled placeholder detail image for the second future Minnie mural project.',
-        caption: 'Placeholder detail photo',
-        isPlaceholder: true,
+        src: '/images/murals/octopus-profile.jpeg',
+        alt: 'Bright yellow octopus mural on a blue wall with teal circular details.',
+        caption: 'Octopus mural',
       },
     ],
     videos: [],
   },
   {
-    title: 'Mural Project Placeholder 3',
+    title: 'Pink Flowers',
     backgroundImage: {
-      src: '/images/murals/mural-placeholder-3.svg',
-      alt: 'Clearly labeled placeholder background image for a third future Minnie mural project.',
-      isPlaceholder: true,
+      src: '/images/murals/pink-flowers.jpg',
+      alt: 'Pink water lily mural detail with green leaves on a textured wall.',
     },
-    description:
-      'Placeholder project description: group all related photos and videos for this mural here.',
+    description: 'Floral mural detail with pink petals and layered green leaves.',
     gallery: [
       {
-        src: '/images/murals/mural-placeholder-3.svg',
-        alt: 'Clearly labeled placeholder image for the third future Minnie mural project.',
-        caption: 'Placeholder project photo',
-        isPlaceholder: true,
-      },
-      {
-        src: '/images/murals/mural-placeholder-4.svg',
-        alt: 'Clearly labeled placeholder detail image for the third future Minnie mural project.',
-        caption: 'Placeholder detail photo',
-        isPlaceholder: true,
+        src: '/images/murals/pink-flowers.jpg',
+        alt: 'Pink water lily mural detail with green leaves on a textured wall.',
+        caption: 'Pink flower mural detail',
       },
     ],
     videos: [],

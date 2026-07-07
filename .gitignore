@@ -19,4 +19,5 @@ pnpm-debug.log*
 
 # OS and editor files
 .DS_Store
+*:Zone.Identifier
 .idea/

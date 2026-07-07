@@ -1,5 +1,4 @@
 ---
-import MuralProject from './MuralProject.astro';
 import type { MuralProject as MuralProjectData } from '../data/murals';
 
 type Props = {
@@ -7,14 +6,99 @@ type Props = {
 };
 
 const { projects } = Astro.props;
+
+const galleryItems = projects.flatMap((project) => {
+  const media = [
+    ...project.gallery.map((item) => ({ type: 'image' as const, ...item })),
+    ...project.videos.map((item) => ({ type: 'video' as const, ...item })),
+  ];
+
+  const items = media.length > 0 ? media : [{ type: 'image' as const, ...project.backgroundImage }];
+
+  return items.map((item) => ({
+    ...item,
+    projectTitle: project.title,
+    backgroundImage: project.backgroundImage,
+    isPlaceholder: item.isPlaceholder || project.backgroundImage.isPlaceholder,
+  }));
+});
 ---
 
-<section class="mural-gallery" aria-labelledby="mural-gallery-heading">
+<section
+  class="mural-gallery"
+  aria-labelledby="mural-gallery-heading"
+  data-lock-gallery
+  style={`--gallery-steps: ${Math.max(galleryItems.length, 1)}`}
+>
   <h2 id="mural-gallery-heading" class="visually-hidden">Mural portfolio projects</h2>
 
-  <div>
-    {projects.map((project, index) => (
-      <MuralProject project={project} index={index} />
+  <div class="lock-gallery-stage">
+    <div class="lock-gallery-backgrounds" aria-hidden="true">
+      {galleryItems.map((item, index) => (
+        <img
+          class:list={['lock-gallery-background', index === 0 ? 'is-active' : '']}
+          src={item.backgroundImage.src}
+          alt=""
+          width="1200"
+          height="900"
+          loading={index === 0 ? 'eager' : 'lazy'}
+          data-gallery-background={index}
+        />
+      ))}
+      <div class="lock-gallery-overlay"></div>
+    </div>
+
+    <div class="lock-gallery-panels" aria-live="polite">
+      {galleryItems.map((item, index) => (
+        <figure
+          class:list={['lock-gallery-panel', index === 0 ? 'is-active' : '']}
+          data-gallery-panel={index}
+        >
+          <div class="lock-gallery-artwork">
+            {item.type === 'image' ? (
+              <img
+                src={item.src}
+                alt={item.alt}
+                width="1200"
+                height="900"
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
+            ) : (
+              <video controls preload="metadata" poster={item.poster}>
+                <source src={item.src} />
+              </video>
+            )}
+          </div>
+          <figcaption class="gallery-title-overlay">
+            <span>{item.projectTitle}</span>
+            {item.isPlaceholder && <small>Placeholder</small>}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <div class="gallery-counter" aria-hidden="true">
+      <span data-gallery-index>1</span>
+      <span>/</span>
+      <span>{galleryItems.length}</span>
+    </div>
+  </div>
+
+  <div class="lock-gallery-fallback">
+    {galleryItems.map((item) => (
+      <figure class="fallback-gallery-panel">
+        {item.type === 'image' ? (
+          <img src={item.src} alt={item.alt} width="1200" height="900" loading="lazy" />
+        ) : (
+          <video controls preload="metadata" poster={item.poster}>
+            <source src={item.src} />
+          </video>
+        )}
+        <figcaption>
+          <span>{item.projectTitle}</span>
+          {item.isPlaceholder && <small>Placeholder</small>}
+        </figcaption>
+      </figure>
     ))}
   </div>
 </section>

@@ -427,80 +427,96 @@ h2 {
 .mural-gallery {
   background: var(--color-ink);
   color: white;
-  overflow: clip;
+  min-height: calc(var(--gallery-steps, 1) * 100svh);
 }
 
-.mural-project {
-  position: relative;
-  min-height: 200svh;
-  background: var(--color-ink);
-}
-
-.project-backdrop {
+.lock-gallery-stage {
   position: sticky;
   top: 0;
+  display: grid;
   height: 100svh;
   overflow: hidden;
-  background: var(--color-ink);
-}
-
-.project-backdrop img,
-.project-backdrop-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.project-backdrop img {
-  object-fit: cover;
-  transform: scale(1.08);
-}
-
-.project-backdrop-overlay {
-  background:
-    linear-gradient(90deg, rgb(0 0 0 / 82%) 0%, rgb(0 0 0 / 48%) 52%, rgb(0 0 0 / 72%) 100%),
-    linear-gradient(0deg, rgb(0 0 0 / 78%) 0%, rgb(0 0 0 / 12%) 45%, rgb(0 0 0 / 55%) 100%);
-}
-
-.project-content {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-}
-
-.project-scenes {
-  display: grid;
-}
-
-.project-scene {
-  position: relative;
-  display: grid;
-  min-height: 100svh;
-  margin: 0;
   padding: clamp(1rem, 3vw, 2rem);
   place-items: center;
 }
 
-.project-artwork {
+.lock-gallery-backgrounds,
+.lock-gallery-panels,
+.lock-gallery-background,
+.lock-gallery-overlay,
+.lock-gallery-panel {
+  position: absolute;
+  inset: 0;
+}
+
+.lock-gallery-background {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.08);
+  transition:
+    opacity 560ms ease,
+    transform 900ms ease;
+}
+
+.lock-gallery-background.is-active {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.lock-gallery-overlay {
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 80%) 0%, rgb(0 0 0 / 38%) 50%, rgb(0 0 0 / 68%) 100%),
+    linear-gradient(0deg, rgb(0 0 0 / 78%) 0%, rgb(0 0 0 / 8%) 48%, rgb(0 0 0 / 46%) 100%);
+}
+
+.lock-gallery-panels {
+  z-index: 2;
+  display: grid;
+  padding: clamp(1rem, 3vw, 2rem);
+  place-items: center;
+  pointer-events: none;
+}
+
+.lock-gallery-panel {
+  display: grid;
+  margin: 0;
+  opacity: 0;
+  place-items: center;
+  transform: scale(0.985);
+  transition:
+    opacity 420ms ease,
+    transform 520ms ease;
+}
+
+.lock-gallery-panel.is-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.lock-gallery-artwork {
   display: grid;
   width: min(100%, 1280px);
-  min-height: calc(100svh - clamp(2rem, 6vw, 4rem));
+  height: calc(100svh - clamp(2rem, 6vw, 4rem));
   place-items: center;
 }
 
-.project-artwork img,
-.project-artwork video {
-  width: min(100%, 1280px);
+.lock-gallery-artwork img,
+.lock-gallery-artwork video {
+  width: auto;
+  max-width: min(100%, 1280px);
   max-height: calc(100svh - clamp(5.5rem, 10vw, 7rem));
   object-fit: contain;
   border-radius: clamp(0.75rem, 2vw, 1.5rem);
-  background: white;
   box-shadow: 0 2rem 5rem rgb(0 0 0 / 35%);
 }
 
-.project-title-overlay {
+.gallery-title-overlay {
   position: absolute;
+  z-index: 3;
   left: clamp(1rem, 4vw, 3rem);
   bottom: clamp(1rem, 4vw, 3rem);
   display: flex;
@@ -518,9 +534,31 @@ h2 {
   backdrop-filter: blur(14px);
 }
 
-.project-title-overlay small {
+.gallery-title-overlay small {
   color: var(--color-butter);
   font: inherit;
+}
+
+.gallery-counter {
+  position: absolute;
+  z-index: 4;
+  right: clamp(1rem, 4vw, 3rem);
+  bottom: clamp(1rem, 4vw, 3rem);
+  display: flex;
+  gap: 0.35rem;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 999px;
+  background: rgb(23 23 23 / 52%);
+  padding: 0.65rem 0.85rem;
+  color: rgb(255 255 255 / 76%);
+  font-size: 0.76rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(14px);
+}
+
+.lock-gallery-fallback {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -528,29 +566,45 @@ h2 {
     scroll-behavior: auto;
   }
 
-  .mural-project {
-    min-height: auto;
-  }
-
-  .project-backdrop {
-    position: absolute;
-    inset: 0;
+  .lock-gallery-stage {
+    display: none;
+    position: relative;
     height: auto;
   }
 
-  .project-backdrop img {
-    transform: none;
+  .lock-gallery-fallback {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
   }
 
-  .project-content {
-    min-height: 100svh;
-    position: relative;
-    inset: auto;
+  .fallback-gallery-panel {
+    overflow: hidden;
+    margin: 0;
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 8%);
   }
 
-  .project-artwork img,
-  .project-artwork video {
-    box-shadow: none;
+  .fallback-gallery-panel img,
+  .fallback-gallery-panel video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .fallback-gallery-panel figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    font-size: 0.76rem;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .fallback-gallery-panel small {
+    color: var(--color-butter);
   }
 }
 
@@ -581,9 +635,5 @@ h2 {
 
   .review-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .mural-project {
-    min-height: 205svh;
   }
 }

@@ -232,6 +232,61 @@ const reviewPlaceholders = [
       if (params.get('thanks') === 'true' && thanks instanceof HTMLElement) {
         thanks.hidden = false;
       }
+
+      const gallery = document.querySelector('[data-lock-gallery]');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (gallery instanceof HTMLElement && !reducedMotion) {
+        const panels = Array.from(gallery.querySelectorAll('[data-gallery-panel]'));
+        const backgrounds = Array.from(gallery.querySelectorAll('[data-gallery-background]'));
+        const counter = gallery.querySelector('[data-gallery-index]');
+        let activeIndex = 0;
+        let ticking = false;
+
+        const setActive = (index: number) => {
+          activeIndex = Math.max(0, Math.min(index, panels.length - 1));
+          const activeValue = String(activeIndex);
+
+          panels.forEach((panel) => {
+            panel.classList.toggle('is-active', panel.getAttribute('data-gallery-panel') === activeValue);
+          });
+
+          backgrounds.forEach((background) => {
+            background.classList.toggle(
+              'is-active',
+              background.getAttribute('data-gallery-background') === activeValue,
+            );
+          });
+
+          if (counter) counter.textContent = String(activeIndex + 1);
+        };
+
+        const syncGalleryToScroll = () => {
+          const rect = gallery.getBoundingClientRect();
+          const maxTravel = gallery.offsetHeight - window.innerHeight;
+          const progress = maxTravel > 0 ? Math.min(Math.max(-rect.top / maxTravel, 0), 1) : 0;
+          const nextIndex = Math.round(progress * (panels.length - 1));
+          setActive(nextIndex);
+          ticking = false;
+        };
+
+        const requestSync = () => {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(syncGalleryToScroll);
+        };
+
+        window.addEventListener('scroll', requestSync, { passive: true });
+        window.addEventListener('resize', requestSync);
+        window.addEventListener('keydown', (event) => {
+          if (event.key === 'Home' || event.key === 'End') return;
+          if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' '].includes(event.key)) {
+            requestSync();
+          }
+        });
+
+        syncGalleryToScroll();
+      }
     </script>
   </body>
 </html>
