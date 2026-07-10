@@ -73,7 +73,7 @@ export const muralVideos: MuralVideo[] = [
     poster: '/images/murals/murray-the-octopus-mural-2021-001.jpeg',
   },
   {
-    src: '/videos/murray-the-octopus-mural-2023-015.MOV',
+    src: '/videos/murray-the-octopus-mural-2023-015.mp4',
     title: 'Murray the octopus mural video, 2023',
     poster: '/images/murals/murray-the-octopus-mural-2023-001.JPG',
   },
