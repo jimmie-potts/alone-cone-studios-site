@@ -1,12 +1,17 @@
 ---
 import MuralGallery from '../components/MuralGallery.astro';
-import { muralProjects } from '../data/murals';
+import { muralGallery, muralVideos } from '../data/murals';
 import '../styles/global.css';
 
 const formAction = 'https://formspree.io/p/3040768964113203164/f/mural-inquiry';
-const heroProject = muralProjects[0];
-const featuredImage = heroProject.gallery[0] ?? heroProject.backgroundImage;
-const thankYouImage = muralProjects[1]?.gallery[0] ?? featuredImage;
+const featuredImage = {
+  src: '/images/murals/otter-boops-mural-2026-001.jpeg',
+  alt: 'A colorful mural of playful purple otters surrounded by bright green leaves.',
+};
+const thankYouImage = {
+  src: '/images/murals/murray-the-octopus-mural-2023-001.JPG',
+  alt: 'A cheerful yellow octopus mural surrounded by bright underwater plants.',
+};
 
 const trustedByPlaceholders = ['Local Shop', 'Community Space', 'Creative Studio', 'Small Business'];
 
@@ -49,9 +54,9 @@ const reviewPlaceholders = [
 
     <header class="site-header">
       <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#top" class="brand-mark">Minnie</a>
+        <a href="#top" class="brand-mark">Alone Cone Studios <span>LLC</span></a>
         <div class="nav-actions">
-          <a href="#portfolio">Portfolio</a>
+          <a href="#portfolio">Murals</a>
           <a href="#contact">Inquiry</a>
         </div>
       </nav>
@@ -60,8 +65,8 @@ const reviewPlaceholders = [
     <main id="main">
       <section id="top" class="hero-section" aria-labelledby="hero-heading">
         <img
-          src={heroProject.backgroundImage.src}
-          alt={heroProject.backgroundImage.alt}
+          src="/images/murals/minnie-paint-leaf.PNG"
+          alt="Minnie hand painting leafy details on a large outdoor mural."
           width="1200"
           height="900"
           class="hero-image"
@@ -69,10 +74,9 @@ const reviewPlaceholders = [
         />
         <div class="hero-overlay"></div>
         <div class="hero-content">
-          <p class="eyebrow">Starting at $500.00</p>
+          <p class="eyebrow">Florida Based. Will Travel.</p>
           <h1 id="hero-heading">Murals.</h1>
-          <p class="hero-subtitle">Hand painted. Custom. Murals.</p>
-          <a href="#contact" class="hero-cta">Florida Based. Willing to Travel.</a>
+          <a href="#contact" class="hero-cta">Now Scheduling Fall 2026. Starting at $500.00</a>
         </div>
       </section>
 
@@ -82,7 +86,7 @@ const reviewPlaceholders = [
             <p class="section-label">Featured mural</p>
             <h2 id="feature-heading">One big wall, one colorful world.</h2>
             <p class="feature-copy">
-              Placeholder description: replace this with a short, accurate note about a real Minnie mural once the final portfolio image is ready.
+              Hand-painted, one-of-a-kind murals that turn everyday walls into colorful little worlds.
             </p>
           </div>
           <figure class="feature-photo">
@@ -93,7 +97,7 @@ const reviewPlaceholders = [
               height="900"
               loading="lazy"
             />
-            <figcaption>Placeholder feature photo</figcaption>
+            <figcaption>Otter Boops mural · 2026</figcaption>
           </figure>
         </div>
       </section>
@@ -114,9 +118,11 @@ const reviewPlaceholders = [
       </section>
 
       <section class="reviews-section" aria-labelledby="reviews-heading">
+        <img class="reviews-background" src="/images/murals/Bouquet-mural-2017-001.jpeg" alt="" loading="lazy" />
+        <div class="reviews-overlay"></div>
         <div class="section-shell">
           <p class="section-label">Reviews</p>
-          <h2 id="reviews-heading">Kind words go here.</h2>
+          <h2 id="reviews-heading">Happy Clients.</h2>
           <div class="review-grid">
             {reviewPlaceholders.map((review) => (
               <figure class="review-card">
@@ -145,10 +151,18 @@ const reviewPlaceholders = [
         <div class="section-shell contact-grid">
           <div>
             <p class="section-label">Inquiry form</p>
-            <h2 id="contact-heading">Tell Minnie about the wall.</h2>
+            <h2 id="contact-heading">Let’s Schedule Your Project.</h2>
             <p>
               Share a few details and Minnie will follow up by email.
             </p>
+            <img
+              class="contact-artwork"
+              src="/images/murals/cbs-mural-2026-004.jpeg"
+              alt="A hand-painted CBS Collision Body Services mural on large black doors."
+              width="2625"
+              height="2576"
+              loading="lazy"
+            />
             <div id="thanks" class="thanks-card" hidden>
               <img
                 src={thankYouImage.src}
@@ -180,7 +194,7 @@ const reviewPlaceholders = [
             </label>
 
             <label>
-              Square footage estimate
+              Square footage (Ex. 10ft wide × 10ft tall wall = 100 SFT) — best guess
               <input name="square_footage" type="text" inputmode="decimal" />
             </label>
 
@@ -226,7 +240,7 @@ const reviewPlaceholders = [
         </div>
       </section>
 
-      <MuralGallery projects={muralProjects} />
+      <MuralGallery images={muralGallery} videos={muralVideos} />
     </main>
 
     <script>
@@ -282,60 +296,6 @@ const reviewPlaceholders = [
         });
       }
 
-      const gallery = document.querySelector('[data-lock-gallery]');
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (gallery instanceof HTMLElement && !reducedMotion) {
-        const panels = Array.from(gallery.querySelectorAll('[data-gallery-panel]'));
-        const backgrounds = Array.from(gallery.querySelectorAll('[data-gallery-background]'));
-        const counter = gallery.querySelector('[data-gallery-index]');
-        let activeIndex = 0;
-        let ticking = false;
-
-        const setActive = (index: number) => {
-          activeIndex = Math.max(0, Math.min(index, panels.length - 1));
-          const activeValue = String(activeIndex);
-
-          panels.forEach((panel) => {
-            panel.classList.toggle('is-active', panel.getAttribute('data-gallery-panel') === activeValue);
-          });
-
-          backgrounds.forEach((background) => {
-            background.classList.toggle(
-              'is-active',
-              background.getAttribute('data-gallery-background') === activeValue,
-            );
-          });
-
-          if (counter) counter.textContent = String(activeIndex + 1);
-        };
-
-        const syncGalleryToScroll = () => {
-          const rect = gallery.getBoundingClientRect();
-          const maxTravel = gallery.offsetHeight - window.innerHeight;
-          const progress = maxTravel > 0 ? Math.min(Math.max(-rect.top / maxTravel, 0), 1) : 0;
-          const nextIndex = Math.round(progress * (panels.length - 1));
-          setActive(nextIndex);
-          ticking = false;
-        };
-
-        const requestSync = () => {
-          if (ticking) return;
-          ticking = true;
-          window.requestAnimationFrame(syncGalleryToScroll);
-        };
-
-        window.addEventListener('scroll', requestSync, { passive: true });
-        window.addEventListener('resize', requestSync);
-        window.addEventListener('keydown', (event) => {
-          if (event.key === 'Home' || event.key === 'End') return;
-          if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' '].includes(event.key)) {
-            requestSync();
-          }
-        });
-
-        syncGalleryToScroll();
-      }
     </script>
   </body>
 </html>
