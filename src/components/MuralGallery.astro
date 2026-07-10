@@ -7,8 +7,12 @@ type Props = {
 };
 
 const { images, videos } = Astro.props;
-const midpoint = Math.ceil(images.length / 2);
-const rows = [images.slice(0, midpoint), images.slice(midpoint)];
+const videoPositions = new Map(
+  videos.map((video, index) => [
+    Math.floor(((index + 1) * images.length) / (videos.length + 1)),
+    video,
+  ]),
+);
 ---
 
 <section class="mural-gallery" aria-labelledby="mural-gallery-heading">
@@ -17,28 +21,25 @@ const rows = [images.slice(0, midpoint), images.slice(midpoint)];
     <h2 id="mural-gallery-heading">A whole bunch of painted walls.</h2>
   </div>
 
-  <div class="marquee-gallery">
-    {rows.map((row, rowIndex) => (
-      <div class:list={['marquee-row', rowIndex === 1 && 'marquee-row-reverse']}>
-        <div class="marquee-track">
-          {[...row, ...row].map((item, index) => (
-            <figure class="marquee-item" aria-hidden={index >= row.length ? 'true' : undefined}>
-              <img src={item.src} alt={index >= row.length ? '' : item.alt} loading="lazy" />
-            </figure>
-          ))}
-        </div>
-      </div>
-    ))}
-  </div>
+  <div class="mural-wall section-shell">
+    {images.map((image, index) => {
+      const video = videoPositions.get(index);
 
-  <div class="video-strip section-shell" aria-label="Mural videos">
-    {videos.map((video) => (
-      <figure class="video-card">
-        <video controls preload="metadata" poster={video.poster} aria-label={video.title}>
-          <source src={video.src} />
-        </video>
-        <figcaption>{video.title}</figcaption>
-      </figure>
-    ))}
+      return (
+        <>
+          {video && (
+            <figure class="mural-wall-item mural-wall-video">
+              <video controls preload="metadata" poster={video.poster} aria-label={video.title}>
+                <source src={video.src} type="video/mp4" />
+              </video>
+              <figcaption>{video.title}</figcaption>
+            </figure>
+          )}
+          <figure class="mural-wall-item">
+            <img src={image.src} alt={image.alt} loading="lazy" />
+          </figure>
+        </>
+      );
+    })}
   </div>
 </section>
