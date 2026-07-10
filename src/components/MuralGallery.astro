@@ -36,10 +36,91 @@ const videoPositions = new Map(
             </figure>
           )}
           <figure class="mural-wall-item">
-            <img src={image.src} alt={image.alt} loading="lazy" />
+            <button
+              class="mural-wall-image-button"
+              type="button"
+              data-gallery-image
+              data-image-index={index}
+              data-image-src={image.src}
+              data-image-alt={image.alt}
+              aria-label={`Enlarge: ${image.alt}`}
+            >
+              <img src={image.src} alt={image.alt} loading="lazy" />
+            </button>
           </figure>
         </>
       );
     })}
   </div>
+
+  <dialog class="gallery-lightbox" data-gallery-lightbox aria-label="Enlarged mural image">
+    <div class="gallery-lightbox-content">
+      <button class="gallery-lightbox-close" type="button" data-lightbox-close aria-label="Close image">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <button
+        class="gallery-lightbox-arrow gallery-lightbox-previous"
+        type="button"
+        data-lightbox-previous
+        aria-label="Show previous image"
+      >
+        <span aria-hidden="true"></span>
+      </button>
+      <img data-lightbox-image src="" alt="" />
+      <button
+        class="gallery-lightbox-arrow gallery-lightbox-next"
+        type="button"
+        data-lightbox-next
+        aria-label="Show next image"
+      >
+        <span aria-hidden="true"></span>
+      </button>
+      <div class="gallery-lightbox-footer">
+        <p data-lightbox-caption></p>
+      </div>
+    </div>
+  </dialog>
 </section>
+
+<script>
+  const lightbox = document.querySelector('[data-gallery-lightbox]');
+  const galleryImages = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-gallery-image]'));
+
+  if (lightbox instanceof HTMLDialogElement) {
+    const lightboxImage = lightbox.querySelector('[data-lightbox-image]');
+    const caption = lightbox.querySelector('[data-lightbox-caption]');
+    let activeIndex = 0;
+
+    const showImage = (index: number) => {
+      activeIndex = (index + galleryImages.length) % galleryImages.length;
+      const imageButton = galleryImages[activeIndex];
+
+      if (lightboxImage instanceof HTMLImageElement && caption instanceof HTMLElement) {
+        lightboxImage.src = imageButton.dataset.imageSrc ?? '';
+        lightboxImage.alt = imageButton.dataset.imageAlt ?? '';
+        caption.textContent = imageButton.dataset.imageAlt ?? '';
+      }
+    };
+
+    galleryImages.forEach((button) => {
+      button.addEventListener('click', () => {
+        const index = Number(button.getAttribute('data-image-index'));
+        showImage(index);
+        lightbox.showModal();
+      });
+    });
+
+    lightbox.querySelector('[data-lightbox-close]')?.addEventListener('click', () => lightbox.close());
+    lightbox.querySelector('[data-lightbox-previous]')?.addEventListener('click', () => showImage(activeIndex - 1));
+    lightbox.querySelector('[data-lightbox-next]')?.addEventListener('click', () => showImage(activeIndex + 1));
+
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) lightbox.close();
+    });
+
+    lightbox.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') showImage(activeIndex - 1);
+      if (event.key === 'ArrowRight') showImage(activeIndex + 1);
+    });
+  }
+</script>
