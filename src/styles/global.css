@@ -506,6 +506,7 @@ h2 {
 }
 
 .mural-gallery {
+  scroll-margin-top: 4rem;
   background: var(--color-ink);
   color: white;
   padding-block: clamp(4rem, 8vw, 7rem);
